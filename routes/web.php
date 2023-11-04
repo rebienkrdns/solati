@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'Solati test: v' . Application::VERSION . ' PHP v' . PHP_VERSION;
 });
+
+Route::get('/login', function () {
+    return response('Unauthorized.', 401);
+})->name('login');
