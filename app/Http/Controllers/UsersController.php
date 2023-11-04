@@ -3,14 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Users Controller Class
+ */
 class UsersController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * 
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
             'name' => ['required', 'max:255'],
@@ -20,18 +30,28 @@ class UsersController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            return ['token' => $user->createToken($user->name)->plainTextToken];
+            return response()->json(['token' => $user->createToken($user->name)->plainTextToken], 200);
         }
 
         return response()->json(['message' => 'Unauthorized.'], 401);
     }
 
-    public function me(Request $request)
+    /**
+     * @param Request $request
+     * 
+     * @return User
+     */
+    public function me(Request $request): User
     {
         return $request->user();
     }
 
-    public function update(Request $request)
+    /**
+     * @param Request $request
+     * 
+     * @return User|JsonResponse
+     */
+    public function update(Request $request): User|JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|max:255',
@@ -58,7 +78,12 @@ class UsersController extends Controller
         return response()->json(['message' => 'Wrong request, the data sent does not comply with the rules.'], 400);
     }
 
-    public function create(Request $request)
+    /**
+     * @param Request $request
+     * 
+     * @return User
+     */
+    public function create(Request $request): User
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|max:255',
@@ -82,5 +107,17 @@ class UsersController extends Controller
         }
 
         return response()->json(['message' => 'Wrong request, the data sent does not comply with the rules.'], 400);
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return Collection
+     */
+    public function list(Request $request): Collection
+    {
+        $exceptId = $request->user()->id;
+
+        return User::query()->whereNot('id', $exceptId)->get();
     }
 }

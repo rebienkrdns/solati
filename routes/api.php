@@ -20,5 +20,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', [UsersController::class, 'me']);
     Route::post('/me', [UsersController::class, 'update']);
 
+    Route::get('/users', [UsersController::class, 'list']);
     Route::post('/users/create', [UsersController::class, 'create']);
 });
