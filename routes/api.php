@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\UsersController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +18,5 @@ Route::post('/login', [UsersController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', [UsersController::class, 'me']);
+    Route::post('/me', [UsersController::class, 'update']);
 });
