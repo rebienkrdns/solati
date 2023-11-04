@@ -69,7 +69,9 @@ class UsersController extends Controller
             $updateUser->setAttribute('dni', $request->dni);
             $updateUser->setAttribute('phone', $request->phone);
             $updateUser->setAttribute('address', $request->address);
-            $updateUser->setAttribute('password', Hash::make($request->password));
+            if (isset($request->password)) {
+                $updateUser->setAttribute('password', Hash::make($request->password));
+            }
             $updateUser->save();
 
             return $updateUser;
