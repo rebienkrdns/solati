@@ -18,5 +18,3 @@
 ## Documentation:
 
 - [Postman documentations](https://documenter.getpostman.com/view/3635509/2s9YXe953c).
-
-<iframe width="700" height="700" src='https://documenter.getpostman.com/view/3635509/2s9YXe953c'> </iframe>
